@@ -1,0 +1,20 @@
+.tiny-time-picker {
+}
+.tiny-time-picker_input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.picker {
+  display: flex;
+  height: 100px;
+}
+
+.picker_col {
+  width: 25%;
+  overflow-y: scroll;
+}
+
+.picker_val--selected {
+  background-color: #cecece;
+}
