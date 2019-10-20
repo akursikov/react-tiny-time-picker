@@ -4,7 +4,6 @@ import StandartHoursSelector from './components/hoursSelector';
 import StandartMinutesSelector from './components/minutesSelector';
 import StandartAmpmSelector from './components/ampmSelector';
 const StandartSecondsSelector = StandartMinutesSelector;
-// const StandartInput = React.lazy(() => import('./components/input'));
 
 const formatRegexp = /^(\d{1,2}):(\d{1,2}):(\d{1,2}) ([ap]m)$/i;
 
@@ -13,12 +12,19 @@ function buildValue(hours, minutes, seconds, ampm) {
 }
 
 function TinyTimePicker(props) {
-  const { initialValue, width, components, onChange } = props;
+  const {
+    initialValue,
+    width,
+    components,
+    use12Hours = false,
+    disabledOptions = {},
+    onChange,
+  } = props;
   const componentRef = useRef();
   const [value, setValue] = useState(initialValue);
   const [isOpen, setIsOpen] = useState(false);
   const match = formatRegexp.exec(value);
-  const [_value, hours, minutes, seconds, ampm] = match;
+  const [, hours, minutes, seconds, ampm] = match;
   function handleInputChange() {
     onChange(value);
   }
@@ -52,6 +58,27 @@ function TinyTimePicker(props) {
   function setAmpm(ampm) {
     setValue(buildValue(hours, minutes, seconds, ampm));
   }
+
+  const HoursSelector =
+    components && components.HoursSelector
+      ? components.HoursSelector
+      : StandartHoursSelector;
+
+  const MinutesSelector =
+    components && components.MinutesSelector
+      ? components.MinutesSelector
+      : StandartMinutesSelector;
+
+  const SecondsSelector =
+    components && components.SecondsSelector
+      ? components.SecondsSelector
+      : StandartSecondsSelector;
+
+  const AmpmSelector =
+    components && components.AmpmSelector
+      ? components.AmpmSelector
+      : StandartAmpmSelector;
+
   return (
     <div
       ref={componentRef}
@@ -65,10 +92,27 @@ function TinyTimePicker(props) {
       />
       {isOpen && (
         <div className="picker">
-          <StandartHoursSelector hours={hours} handleClick={setHours} />
-          <StandartMinutesSelector minutes={minutes} handleClick={setMinutes} />
-          <StandartSecondsSelector minutes={seconds} handleClick={setSeconds} />
-          <StandartAmpmSelector ampm={ampm} handleClick={setAmpm} />
+          <HoursSelector
+            hours={hours}
+            use12Hours={use12Hours}
+            disabledOptions={disabledOptions.hours}
+            handleClick={setHours}
+          />
+          <MinutesSelector
+            minutes={minutes}
+            disabledOptions={disabledOptions.minutes}
+            handleClick={setMinutes}
+          />
+          <SecondsSelector
+            minutes={seconds}
+            disabledOptions={disabledOptions.seconds}
+            handleClick={setSeconds}
+          />
+          <AmpmSelector
+            ampm={ampm}
+            disabledOptions={disabledOptions.ampm}
+            handleClick={setAmpm}
+          />
         </div>
       )}
     </div>

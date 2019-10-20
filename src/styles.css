@@ -8,6 +8,7 @@
 .picker {
   display: flex;
   height: 100px;
+  border-bottom: 1px solid #aeaeae;
 }
 
 .picker_col {
@@ -17,4 +18,9 @@
 
 .picker_val--selected {
   background-color: #cecece;
+}
+
+.picker_val--disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
 }
