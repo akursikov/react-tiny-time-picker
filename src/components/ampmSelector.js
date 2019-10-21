@@ -3,9 +3,17 @@ import BaseSelector from './baseSelector';
 import { ampmOptions } from './../options';
 
 function AmpmSelector(props) {
-  const { selectedOption, disabledOptions, handleClick } = props;
+  const {
+    currentSelectorRef,
+    prevSelectorRef,
+    selectedOption,
+    disabledOptions,
+    handleClick,
+  } = props;
   return (
     <BaseSelector
+      currentSelectorRef={currentSelectorRef}
+      prevSelectorRef={prevSelectorRef}
       options={ampmOptions}
       selectedOption={selectedOption}
       disabledOptions={disabledOptions}

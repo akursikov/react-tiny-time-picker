@@ -21,6 +21,10 @@ function TinyTimePicker(props) {
     onChange,
   } = props;
   const componentRef = useRef();
+  const hoursSelectorRef = useRef();
+  const minutesSelectorRef = useRef();
+  const secondsSelectorRef = useRef();
+  const ampmSelectorRef = useRef();
   const [value, setValue] = useState(initialValue);
   const [isOpen, setIsOpen] = useState(false);
   const match = formatRegexp.exec(value);
@@ -93,22 +97,32 @@ function TinyTimePicker(props) {
       {isOpen && (
         <div className="picker">
           <HoursSelector
+            currentSelectorRef={hoursSelectorRef}
+            nextSelectorRef={minutesSelectorRef}
             use12Hours={use12Hours}
             selectedOption={hours}
             disabledOptions={disabledOptions.hours}
             handleClick={setHours}
           />
           <MinutesSelector
+            currentSelectorRef={minutesSelectorRef}
+            prevSelectorRef={hoursSelectorRef}
+            nextSelectorRef={secondsSelectorRef}
             selectedOption={minutes}
             disabledOptions={disabledOptions.minutes}
             handleClick={setMinutes}
           />
           <SecondsSelector
+            currentSelectorRef={secondsSelectorRef}
+            prevSelectorRef={minutesSelectorRef}
+            nextSelectorRef={ampmSelectorRef}
             selectedOption={seconds}
             disabledOptions={disabledOptions.seconds}
             handleClick={setSeconds}
           />
           <AmpmSelector
+            currentSelectorRef={ampmSelectorRef}
+            prevSelectorRef={secondsSelectorRef}
             selectedOption={ampm}
             disabledOptions={disabledOptions.ampm}
             handleClick={setAmpm}

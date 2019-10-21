@@ -4,6 +4,9 @@ function noop() {}
 
 function BaseSelector(props) {
   const {
+    currentSelectorRef,
+    prevSelectorRef,
+    nextSelectorRef,
     options,
     selectedOption,
     disabledOptions,
@@ -17,14 +20,20 @@ function BaseSelector(props) {
     selectOption(option);
   }
 
-  function selectNewOptionIfPossible(getNewOption) {
+  function selectNewOptionIfPossible(getNewOption, event) {
     let newOption = isAmpm
       ? selectedOption == 'am'
         ? 'pm'
         : 'am'
       : getNewOptionIfExists(getNewOption);
-    if (newOption) {
+    if (newOption || newOption == 0) {
       selectOption(newOption);
+      const optionIndex = options.findIndex(function match(option) {
+        return option == newOption;
+      });
+      currentSelectorRef.current.scrollTop =
+        currentSelectorRef.current.childNodes[optionIndex].offsetTop -
+        currentSelectorRef.current.offsetTop;
     }
   }
 
@@ -42,12 +51,20 @@ function BaseSelector(props) {
   }
 
   function handleKeyDown(event) {
-    if (event.keyCode == 38) {
+    if (event.keyCode == 37) {
+      if (prevSelectorRef) {
+        prevSelectorRef.current.focus();
+      }
+    } else if (event.keyCode == 38) {
       event.preventDefault();
       function getPrevOption(option) {
         return option - 1;
       }
       selectNewOptionIfPossible(getPrevOption);
+    } else if (event.keyCode == 39) {
+      if (nextSelectorRef) {
+        nextSelectorRef.current.focus();
+      }
     } else if (event.keyCode == 40) {
       event.preventDefault();
       function getNextOption(option) {
@@ -59,6 +76,7 @@ function BaseSelector(props) {
 
   return (
     <div
+      ref={currentSelectorRef}
       className="picker_col"
       role="listbox"
       tabIndex="0"
@@ -72,7 +90,7 @@ function BaseSelector(props) {
             className={
               isDisabled
                 ? 'picker_val--disabled'
-                : option === selectedOption
+                : option == selectedOption
                 ? 'picker_val--selected'
                 : ''
             }

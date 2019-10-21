@@ -3,9 +3,19 @@ import BaseSelector from './baseSelector';
 import { minutesOptions } from './../options';
 
 function MinutesSelector(props) {
-  const { selectedOption, disabledOptions, handleClick } = props;
+  const {
+    currentSelectorRef,
+    prevSelectorRef,
+    nextSelectorRef,
+    selectedOption,
+    disabledOptions,
+    handleClick,
+  } = props;
   return (
     <BaseSelector
+      currentSelectorRef={currentSelectorRef}
+      prevSelectorRef={prevSelectorRef}
+      nextSelectorRef={nextSelectorRef}
       options={minutesOptions}
       selectedOption={selectedOption}
       disabledOptions={disabledOptions}
