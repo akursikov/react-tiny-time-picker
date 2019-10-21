@@ -1,37 +1,17 @@
 import React from 'react';
-
-const ampmOptions = ['am', 'pm'];
+import BaseSelector from './baseSelector';
+import { ampmOptions } from './../options';
 
 function AmpmSelector(props) {
-  const { ampm, disabledOptions, handleClick } = props;
-  function handleAmpmClick(ampm) {
-    if (disabledOptions && disabledOptions.includes(ampm)) {
-      return;
-    }
-    handleClick(ampm);
-  }
+  const { selectedOption, disabledOptions, handleClick } = props;
   return (
-    <div className="picker_col">
-      {ampmOptions.map(ampmOption => {
-        const isDisabled =
-          disabledOptions && disabledOptions.includes(ampmOption);
-        return (
-          <div
-            key={ampmOption}
-            className={
-              isDisabled
-                ? 'picker_val--disabled'
-                : ampmOption === ampm
-                ? 'picker_val--selected'
-                : ''
-            }
-            onClick={isDisabled ? () => {} : () => handleAmpmClick(ampmOption)}
-          >
-            {ampmOption}
-          </div>
-        );
-      })}
-    </div>
+    <BaseSelector
+      options={ampmOptions}
+      selectedOption={selectedOption}
+      disabledOptions={disabledOptions}
+      isAmpm={true}
+      selectOption={handleClick}
+    />
   );
 }
 

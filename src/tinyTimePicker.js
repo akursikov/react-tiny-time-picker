@@ -93,23 +93,23 @@ function TinyTimePicker(props) {
       {isOpen && (
         <div className="picker">
           <HoursSelector
-            hours={hours}
             use12Hours={use12Hours}
+            selectedOption={hours}
             disabledOptions={disabledOptions.hours}
             handleClick={setHours}
           />
           <MinutesSelector
-            minutes={minutes}
+            selectedOption={minutes}
             disabledOptions={disabledOptions.minutes}
             handleClick={setMinutes}
           />
           <SecondsSelector
-            minutes={seconds}
+            selectedOption={seconds}
             disabledOptions={disabledOptions.seconds}
             handleClick={setSeconds}
           />
           <AmpmSelector
-            ampm={ampm}
+            selectedOption={ampm}
             disabledOptions={disabledOptions.ampm}
             handleClick={setAmpm}
           />
