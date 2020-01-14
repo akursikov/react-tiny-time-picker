@@ -1,4 +1,5 @@
 .tiny-time-picker {
+  display: flex;
 }
 .tiny-time-picker_input {
   width: 100%;

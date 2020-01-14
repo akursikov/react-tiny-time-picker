@@ -7,6 +7,6 @@ import DisabledOptions from './disabledOptions';
 
 storiesOf('Tiny Time Picker', module)
   .add('Basic Usage', () => <BasicUsage />)
-  .add('Custom Components', () => <CustomComponents />)
   .add('12 Hours Format', () => <Use12Hours />)
-  .add('Disabled Options', () => <DisabledOptions />);
+  .add('Disabled Options', () => <DisabledOptions />)
+  .add('Custom Components', () => <CustomComponents />);
