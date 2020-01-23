@@ -9,7 +9,8 @@ function buildValue(hours, minutes, seconds, ampm) {
 
 function TinyTimePicker(props) {
   const {
-    initialValue,
+    name,
+    defaultValue,
     width,
     components,
     use12Hours = false,
@@ -21,10 +22,23 @@ function TinyTimePicker(props) {
   const minutesSelectorRef = useRef();
   const secondsSelectorRef = useRef();
   const ampmSelectorRef = useRef();
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(
+    defaultValue ? defaultValue : '00:00:00 am'
+  );
   const [isOpen, setIsOpen] = useState(false);
   const match = formatRegexp.exec(value);
   const [, hours, minutes, seconds, ampm] = match;
+  const [hoursValue, setHoursValue] = useState(hours);
+  const [minutesValue, setMinutesValue] = useState(minutes);
+  const [secondsValue, setSecondsValue] = useState(seconds);
+
+  function buildValue(h, m, s) {
+    return `${h}:${m}:${s}`;
+  }
+
+  function handleChange(h, m, s) {
+    onChange(buildValue(h, m, s));
+  }
 
   return (
     <div
@@ -35,20 +49,29 @@ function TinyTimePicker(props) {
       <Part
         currentPartRef={hoursSelectorRef}
         nextPartRef={minutesSelectorRef}
-        initialValue={hours}
+        defaultValue={hours}
+        val={hoursValue}
+        setVal={setHoursValue}
+        onChange={h => handleChange(h, minutesValue, secondsValue)}
         maxValue={use12Hours ? 12 : 23}
       />
       <Part
         currentPartRef={minutesSelectorRef}
         prevPartRef={hoursSelectorRef}
         nextPartRef={secondsSelectorRef}
-        initialValue={minutes}
+        defaultValue={minutes}
+        val={minutesValue}
+        setVal={setMinutesValue}
+        onChange={m => handleChange(hoursValue, m, secondsValue)}
         maxValue={59}
       />
       <Part
         currentPartRef={secondsSelectorRef}
         prevPartRef={minutesSelectorRef}
-        initialValue={seconds}
+        defaultValue={seconds}
+        val={secondsValue}
+        setVal={setSecondsValue}
+        onChange={s => handleChange(hoursValue, minutesValue, s)}
         maxValue={59}
       />
     </div>
