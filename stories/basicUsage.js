@@ -3,7 +3,7 @@ import TinyTimePicker from './../src';
 import './../src/styles.css';
 
 function BasicUsage() {
-  const [val, setVal] = useState('3:38:12 pm');
+  const [val, setVal] = useState('3:38:12');
   return (
     <div>
       <div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Part from './components/part';
 import AmPmPart from './components/amPmPart';
 
-const formatRegexp = /^(\d{1,2}):(\d{1,2}):(\d{1,2}) ([ap]m)$/i;
+const formatRegexp = /^(\d{1,2}):(\d{1,2}):(\d{1,2})( [ap]m)?$/i;
 
 function buildValue(hours, minutes, seconds, ampm) {
   return `${hours}:${minutes}:${seconds} ${ampm}`;
@@ -26,7 +26,6 @@ function TinyTimePicker(props) {
   const [value, setValue] = useState(
     defaultValue ? defaultValue : '00:00:00 am'
   );
-  const [isOpen, setIsOpen] = useState(false);
   const match = formatRegexp.exec(value);
   const [, hours, minutes, seconds, ampm] = match;
   const [hoursValue, setHoursValue] = useState(hours);
@@ -35,7 +34,7 @@ function TinyTimePicker(props) {
   const [ampmValue, setAmpmValue] = useState(ampm);
 
   function buildValue(h, m, s, ampm) {
-    return `${h}:${m}:${s} ${ampm}`;
+    return `${h}:${m}:${s}${use12Hours ? ` ${ampm}` : ''}`;
   }
 
   function handleChange(h, m, s, ampm) {

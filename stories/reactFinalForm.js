@@ -29,8 +29,8 @@ function ReactFinalForm() {
             <label>react-tiny-time-picker</label>
             <Field
               name="timePicker"
-              initValue="3:38:13 pm"
-              defaultValue="3:38:13 pm"
+              initValue="3:38:13"
+              defaultValue="3:38:13"
               component={TimePickerControl}
             />
           </div>
