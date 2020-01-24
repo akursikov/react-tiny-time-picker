@@ -100,22 +100,26 @@ function Part(props) {
       if (prevPartRef) {
         prevPartRef.current.focus();
       }
+      return;
     } else if (event.keyCode == 38) {
       if (!intVal) {
         newValue = 1;
       } else if (intVal < maxValue) {
         newValue = intVal + 1;
+      } else {
+        return;
       }
     } else if (event.keyCode == 39) {
       if (nextPartRef) {
         nextPartRef.current.focus();
       }
+      return;
     } else if (event.keyCode == 40) {
       // todo empty input
       if (intVal > 0) {
         newValue = intVal - 1;
       } else {
-        newValue = 0;
+        return;
       }
     }
     setVal(`${newValue}`);
@@ -132,7 +136,7 @@ function Part(props) {
 
   return (
     <input
-      className=".tiny-time-picker_input"
+      className="tiny-time-picker_input"
       ref={currentPartRef}
       value={val}
       onKeyDown={handleKeyDown}

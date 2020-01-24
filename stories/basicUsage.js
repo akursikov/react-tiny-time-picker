@@ -8,11 +8,11 @@ function BasicUsage() {
     <div>
       <div>
         <TinyTimePicker
-          initialValue={val}
+          defaultValue={val}
           onChange={newVal => setVal(newVal)}
         />
       </div>
-      <div>{val}</div>
+      <div>Time: {val}</div>
     </div>
   );
 }

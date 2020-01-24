@@ -12,7 +12,7 @@ const disabledOptions = {
 function DisabledOptions() {
   return (
     <TinyTimePicker
-      initialValue="3:38:12 pm"
+      defaultValue="3:38:12 pm"
       disabledOptions={disabledOptions}
     />
   );
