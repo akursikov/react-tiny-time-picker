@@ -15,4 +15,4 @@ deploy:
   repo: akursikov/react-tiny-time-picker # Add your username/project_name here
   target_branch: gh-pages # Tell Travis to deploy on the gh-pages branch
   on:
-    branch: gh-pages # Tell Travis to trigger a deploy only when we push to master
+    branch: gh-pages # Tell Travis to trigger a deploy only when we push to gh-pages
