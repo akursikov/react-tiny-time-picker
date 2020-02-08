@@ -1,28 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 function Part(props) {
   const {
     currentPartRef,
     prevPartRef,
     nextPartRef,
-    defaultValue,
     val,
     setVal,
     onChange,
     maxValue,
   } = props;
-  // const [val, setVal] = useState(parseInt(defaultValue, 10));
-  const [isNotTouchedSinceFocused, setIsNotTouchedSinceFocused] = useState(
-    false
-  );
+
   const maxFirstDigit = useMemo(
     function getFirstDigit() {
       return Math.floor(maxValue / 10);
     },
     [maxValue]
   );
+
   function handleChange(event) {
-    setIsNotTouchedSinceFocused(false);
     const {
       target: { value: inputValue },
     } = event;
@@ -30,7 +26,7 @@ function Part(props) {
       setVal('');
       return;
     }
-    if (!/\d{1,2}/.test(inputValue)) {
+    if (!/^\d{1,2}$/.test(inputValue)) {
       return;
     }
     const inputIntValue = parseInt(inputValue, 10);
@@ -39,7 +35,7 @@ function Part(props) {
     let shouldFocusNext = false;
     // handle the first digit
     if (inputValue.length == 1) {
-      // clear input, cannot be first digit (e.g 9 for minutes -> 09)
+      // currently empty, the input cannot be first digit (e.g 9 for minutes -> 09)
       if (inputIntValue > maxFirstDigit) {
         newValue = `0${inputIntValue}`;
         shouldFocusNext = true;
@@ -50,7 +46,11 @@ function Part(props) {
       // handle the second digit
     } else if (inputValue.length == 2) {
       if (inputIntValue <= maxValue) {
+        // if started typing with leading 0
         if (inputValue[0] == '0') {
+          // potentially rare case. there is a 0 already in the text field and
+          // the input is another 0. consider it's 0 afterball, should focus
+          // next part.
           if (inputIntValue == 0) {
             newValue = '0';
           } else {
@@ -59,6 +59,7 @@ function Part(props) {
         } else {
           newValue = inputIntValue;
         }
+        // if the result number is higher than max value, use max value
       } else {
         newValue = maxValue;
       }
@@ -79,8 +80,13 @@ function Part(props) {
     }
     setVal(newValue);
     onChange(newValue);
-    if (nextPartRef && nextPartRef.current) {
-      nextPartRef.current.focus();
+    if (shouldFocusNext) {
+      if (nextPartRef && nextPartRef.current) {
+        nextPartRef.current.focus();
+        nextPartRef.current.select();
+      } else {
+        currentPartRef.current.blur();
+      }
     }
 
     return true;
@@ -126,12 +132,8 @@ function Part(props) {
     onChange(`${newValue}`);
   }
 
-  function handleFocus() {
-    setIsNotTouchedSinceFocused(true);
-  }
-
-  function handleBlur() {
-    setIsNotTouchedSinceFocused(false);
+  function handleClick() {
+    currentPartRef.current.select();
   }
 
   return (
@@ -140,9 +142,8 @@ function Part(props) {
       ref={currentPartRef}
       value={val}
       onKeyDown={handleKeyDown}
+      onClick={handleClick}
       onChange={handleChange}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
     />
   );
 }

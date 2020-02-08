@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Part from './components/part';
 import AmPmPart from './components/amPmPart';
 
@@ -9,15 +9,7 @@ function buildValue(hours, minutes, seconds, ampm) {
 }
 
 function TinyTimePicker(props) {
-  const {
-    name,
-    defaultValue,
-    width,
-    components,
-    use12Hours = false,
-    disabledOptions = {},
-    onChange,
-  } = props;
+  const { name, defaultValue, width, use12Hours = false, onChange } = props;
   const componentRef = useRef();
   const hoursSelectorRef = useRef();
   const minutesSelectorRef = useRef();
@@ -52,7 +44,6 @@ function TinyTimePicker(props) {
       <Part
         currentPartRef={hoursSelectorRef}
         nextPartRef={minutesSelectorRef}
-        defaultValue={hours}
         val={hoursValue}
         setVal={setHoursValue}
         onChange={h => handleChange(h, minutesValue, secondsValue, ampmValue)}
@@ -62,7 +53,6 @@ function TinyTimePicker(props) {
         currentPartRef={minutesSelectorRef}
         prevPartRef={hoursSelectorRef}
         nextPartRef={secondsSelectorRef}
-        defaultValue={minutes}
         val={minutesValue}
         setVal={setMinutesValue}
         onChange={m => handleChange(hoursValue, m, secondsValue, ampmValue)}
@@ -72,7 +62,6 @@ function TinyTimePicker(props) {
         currentPartRef={secondsSelectorRef}
         prevPartRef={minutesSelectorRef}
         nextPartRef={ampmSelectorRef}
-        defaultValue={seconds}
         val={secondsValue}
         setVal={setSecondsValue}
         onChange={s => handleChange(hoursValue, minutesValue, s, ampmValue)}
@@ -82,7 +71,6 @@ function TinyTimePicker(props) {
         <AmPmPart
           currentPartRef={ampmSelectorRef}
           prevPartRef={secondsSelectorRef}
-          defaultValue={ampm}
           val={ampmValue}
           setVal={setAmpmValue}
           onChange={ampm =>

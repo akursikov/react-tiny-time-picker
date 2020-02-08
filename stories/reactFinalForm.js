@@ -31,6 +31,7 @@ function ReactFinalForm() {
               name="timePicker"
               initValue="3:38:13"
               defaultValue="3:38:13"
+              use12Hours
               component={TimePickerControl}
             />
           </div>
